@@ -75,7 +75,11 @@ See `.env.example`. The important ones:
 
 ## Docker and Azure
 
-The `Dockerfile` builds one image used for the API (default command) and the worker (`python -m app.workers.evaluation_worker`). The Azure runbook lives in the project documentation (`deployment.md`).
+The `Dockerfile` builds one image used for the API (default command) and the worker (`python -m app.workers.evaluation_worker`). The Azure runbook is [docs/deployment.md](docs/deployment.md).
+
+## Documentation
+
+The design notes are in [docs/](docs/README.md): the AI pipeline and its safety features, the per-course workflow, the rules and the assumptions to confirm with BU, posting, the database design, and deployment. The React app is in the [frontend repository](https://github.com/ssamal23/venturemind-bu-transfer-frontend).
 
 ## Limits
 
