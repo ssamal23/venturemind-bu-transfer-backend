@@ -10,7 +10,8 @@ Design notes for the BU transfer credit prototype. Start with the first two.
 | [rules.md](rules.md) | The deterministic rules (grade, quarter conversion, one-year window, program rules) and the assumptions still to confirm with BU |
 | [posting.md](posting.md) | The credit office: posting results as grade T, with its safeguards and assumptions |
 | [database-design.md](database-design.md) | The 19 tables, the ER diagram, the status lifecycle, the design rules, and the migrations |
-| [deployment.md](deployment.md) | Deploying to Azure: repositories, identity, containers, and a lock-down checklist |
+| [deployment-container.md](deployment-container.md) | The simplest deployment: one container (API and worker together) on Azure Web App for Containers |
+| [deployment.md](deployment.md) | The fuller Azure deployment: separate API and worker on Container Apps, identity, and a lock-down checklist |
 | [schema.generated.sql](schema.generated.sql) | The DDL the models describe, for review |
 
 The React app is in the [frontend repository](https://github.com/ssamal23/venturemind-bu-transfer-frontend).

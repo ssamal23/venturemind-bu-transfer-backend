@@ -47,6 +47,10 @@ class Settings(BaseSettings):
     force_primary_fail: bool = False
 
     worker_max_attempts: int = 4
+    # Run the background worker inside the API process, so one container does everything.
+    # Fine for a small deployment; use a separate worker for heavier loads.
+    embedded_worker: bool = False
+    worker_poll_seconds: float = 5.0
 
     # Create the workflow checkpoint tables at startup. Turn off in Azure, where the app's database
     # user cannot create tables; run `python -m app.workflows.checkpointer` once as the admin instead.

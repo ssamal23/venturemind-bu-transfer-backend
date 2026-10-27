@@ -1,5 +1,7 @@
 # Deploying to Azure
 
+**Simpler option:** for one container that runs the API and the worker together, see [deployment-container.md](deployment-container.md).
+
 **Status:** the code and configuration for this are written and the parts that can run without Azure are tested. The Docker images and every `az` command below have **not been run yet** (no Docker or Azure CLI on the build machine). Expect to fix small things on the first pass.
 
 ## 1. The two repositories

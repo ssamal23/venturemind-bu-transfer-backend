@@ -72,10 +72,11 @@ See `.env.example`. The important ones:
 | `LLM_CHAIN` | Order providers are tried, for example `["claude","gemini"]` |
 | `STORAGE_BACKEND` | `local` (default) or `azure` (needed when the API and worker are separate containers) |
 | `ENVIRONMENT` | `production` turns on startup safety checks |
+| `EMBEDDED_WORKER` | `true` runs the worker inside the API process |
 
 ## Docker and Azure
 
-The `Dockerfile` builds one image used for the API (default command) and the worker (`python -m app.workers.evaluation_worker`). The Azure runbook is [docs/deployment.md](docs/deployment.md).
+The `Dockerfile` builds one image. By default it runs the API; set `EMBEDDED_WORKER=true` to run the background worker inside the same process (one container does everything), or run `python -m app.workers.evaluation_worker` as a separate container. The simplest Azure setup is [docs/deployment-container.md](docs/deployment-container.md). The Azure runbook is [docs/deployment.md](docs/deployment.md).
 
 ## Documentation
 

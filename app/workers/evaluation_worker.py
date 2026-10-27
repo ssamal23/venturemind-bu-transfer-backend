@@ -21,7 +21,7 @@ from __future__ import annotations
 import argparse
 import logging
 import socket
-import time
+import threading
 import uuid
 from collections.abc import Callable
 from datetime import datetime, timezone
@@ -224,6 +224,32 @@ def run_once(db: Session, worker_id: str = "worker", **kwargs) -> str | None:
     return run_evaluation(db, job.transcript_course_id, lambda: process_job(db, job, **kwargs))
 
 
+def run_loop(stop: threading.Event, worker_id: str, interval: float = 5.0, once: bool = False) -> int:
+    """Claim and process jobs until `stop` is set (or, with once=True, until the queue is empty).
+
+    Used by the standalone worker and by the API when it runs the worker inside its own process.
+    A failure (for example the database being briefly unreachable) is logged and retried after a
+    pause; it never ends the loop. Returns how many jobs were handled.
+    """
+    handled = 0
+    while not stop.is_set():
+        try:
+            with SessionLocal() as db:
+                outcome = run_once(db, worker_id)
+        except Exception:
+            log.exception("Worker loop error; trying again in %.0f s", max(interval, 1.0))
+            stop.wait(max(interval, 1.0))
+            continue
+        if outcome is None:
+            if once:
+                break
+            stop.wait(interval)
+        else:
+            handled += 1
+            log.info("Job finished: %s", outcome)
+    return handled
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--once", action="store_true", help="process the queue once, then exit")
@@ -238,17 +264,12 @@ def main() -> None:
                     "Jobs will be retried and then sent to evaluators without a suggestion.")
     log.info("Worker %s started. Providers: %s", worker_id, [p["provider"] for p in gateway.status()])
 
-    handled = 0
-    while True:
-        with SessionLocal() as db:
-            outcome = run_once(db, worker_id)
-        if outcome is None:
-            if args.once:
-                break
-            time.sleep(args.interval)
-        else:
-            handled += 1
-            log.info("Job finished: %s", outcome)
+    stop = threading.Event()
+    try:
+        handled = run_loop(stop, worker_id, args.interval, once=args.once)
+    except KeyboardInterrupt:
+        stop.set()
+        handled = 0
     log.info("Done. %d job(s) handled.", handled)
 
 
