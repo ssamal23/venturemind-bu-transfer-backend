@@ -1,0 +1,35 @@
+{
+  "summary": {
+    "all": {
+      "pairs": 69,
+      "top1": 0.826,
+      "top3": 1.0,
+      "top5": 1.0
+    },
+    "level:LIKELY_EQUIVALENT": {
+      "pairs": 52,
+      "top1": 0.923,
+      "top3": 1.0,
+      "top5": 1.0
+    },
+    "level:PARTIAL_SYLLABUS_REVIEW": {
+      "pairs": 17,
+      "top1": 0.529,
+      "top3": 1.0,
+      "top5": 1.0
+    },
+    "school:NYU": {
+      "pairs": 37,
+      "top1": 0.865,
+      "top3": 1.0,
+      "top5": 1.0
+    },
+    "school:Northeastern": {
+      "pairs": 32,
+      "top1": 0.781,
+      "top3": 1.0,
+      "top5": 1.0
+    }
+  },
+  "misses_outside_top3": []
+}

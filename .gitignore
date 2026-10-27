@@ -1,0 +1,15 @@
+# Secrets and local state: never committed
+.env
+.env.*
+!.env.example
+storage/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.log
+
+# Sponsor-supplied workbook: not published (see README). Put it at data/ to run the seed.
+data/BU_Transfer_Program_Course_Match.xlsx

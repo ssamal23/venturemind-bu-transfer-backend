@@ -1,0 +1,5 @@
+* text=auto
+Dockerfile text eol=lf
+*.sh text eol=lf
+*.sql text eol=lf
+*.template text eol=lf
